@@ -1,0 +1,15 @@
+        app.logger.info(f'INFO EXECUTION: {user.user} got the result: \n {result}')
+        res = {"result" : result}
+        if error and result :
+            res["warning"] = error
+        elif not result and error :
+            res = {"error" : error}
+        else :
+            res["error"] = []
+        print(res)
+        return jsonify(res) , 200
+    except Exception as e :
+        print(e)
+        if 'executing' in session:
+            del session["executing"]
+        return jsonify({"msg" : str(e)}) , 400
