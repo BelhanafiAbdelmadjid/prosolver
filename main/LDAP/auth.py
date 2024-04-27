@@ -57,8 +57,6 @@ class ldap_conn():
             raise ValueError("Cannot bind to LDAP!")
         else:
             username_to_auth = ""+username_to_auth
-            # username_to_auth = "@dz.nxbp.corp\\"+username_to_auth
-            # result = connection.rebind(user=username_to_auth,password=password_to_auth,authentication=NTLM)
             result = connection.search("ou=users,"+self.app.config.get("ROOT_DN"),f'(&(uid={username_to_auth})(userPassword={password_to_auth}))')
             return result[0]
                 

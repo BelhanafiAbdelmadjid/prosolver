@@ -161,8 +161,6 @@ def LoginUAT():
 
     password = data["password"]
     try:
-        # initialisationConnexionRandom(username,password,ExpectedServersUAT)
-        print(username,password)
         if ldap.authentificate(username,password) is False :
             return jsonify({'msg' : "Please check your credentials or contact your support."}) , 400
         userInfo = {
@@ -175,8 +173,7 @@ def LoginUAT():
                     ,"admin" : True if user else False
                     }
         return jsonify(response) ,200
-    except Exception as e :
-        print(e)
+    except Exception  :
         return jsonify({'msg' : "an error has occured"}) , 400
 
 @app.get("/api/Prod/logedin")
