@@ -1,29 +1,16 @@
 .
 ├── app.log
-├── directory_structure.txt
 ├── flask_session
 ├── main
 │   ├── Command.py
 │   ├── LDAP
-│   │   ├── __pycache__
-│   │   │   └── auth.cpython-312.pyc
 │   │   └── auth.py
 │   ├── Models.py
 │   ├── SSH
-│   │   ├── SSH.py
-│   │   └── __pycache__
-│   │       ├── SSH.cpython-312.pyc
-│   │       └── SSHClient.cpython-312.pyc
+│   │   └── SSH.py
 │   ├── __init__.py
-│   ├── __pycache__
-│   │   ├── Command.cpython-312.pyc
-│   │   ├── Models.cpython-312.pyc
-│   │   ├── __init__.cpython-312.pyc
-│   │   └── routes.cpython-312.pyc
 │   └── routes.py
-├── modules
 ├── requirements.txt
 ├── run.py
 └── venv
 
-9 directories, 17 files
