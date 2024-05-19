@@ -20,9 +20,7 @@ def makeSessionTemp():
 def after_request(response):
     return response
 
-@app.route('/')
-def index():
-    return 'Hello, World!'
+
 
 @app.errorhandler(500)
 def server_error(error):
