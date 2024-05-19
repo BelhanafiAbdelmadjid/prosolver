@@ -1,6 +1,6 @@
 FROM python
 WORKDIR /app
 COPY . /app/
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-dependencies
 EXPOSE 5000
-CMD ["python3","app.py"]
+CMD ["python3","run.py"]
