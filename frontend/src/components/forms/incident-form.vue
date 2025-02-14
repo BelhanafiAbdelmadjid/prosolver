@@ -65,7 +65,8 @@ export default{
     max-height: 100%;
 
     display: grid;
-    grid-template-rows: min-content min-content min-content 1fr ;
+    grid-template-rows: min-content min-content min-content  1fr ;
+    /* grid-template-columns: 1fr 1fr; */
     
     gap:15px;
 

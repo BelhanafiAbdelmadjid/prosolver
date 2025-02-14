@@ -17,6 +17,14 @@
                 <option value="PROD">Prod</option>
             </select>
         </template>
+
+        <template #InputTypeOS>
+            <select v-model="server.type" name="" id="">
+                <option value="Linux">Linux</option>
+                <option value="Windows">Windows</option>
+            </select>
+        </template>
+
         <template #Containers>
             <tableExtension>
                 <template #tableHeaders>
@@ -92,11 +100,7 @@ export default{
 <style scoped>
 
 
-.form-holder form{
-    grid-template-columns: 1fr 1fr;
 
-
-}
 .form-holder form .input-name {
     grid-area: 1/1/2/2;
 }

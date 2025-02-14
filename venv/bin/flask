@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/abdelmadjidbelhanafi/Documents/vsc project/prosolver/venv/bin/python3" "$0" "$@"
+'''exec' "/Users/abdelmadjidbelhanafi/Documents/vsc project/prosolver/venv/bin/python3.12" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

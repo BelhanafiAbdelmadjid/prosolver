@@ -15,9 +15,13 @@
                 <label>IP address</label>
                 <slot name="InputIp" ></slot>
             </div>
-            <div style=" width: 100%" class="input-type input-holder">
-                <label  >Type</label>
+            <div class="input-type input-holder">
+                <label>Type</label>
                 <slot name="InputType" ></slot>
+            </div>
+            <div class="input-type-os input-holder">
+                <label>Type OS</label>
+                <slot name="InputTypeOS" ></slot>
             </div>
             <div class="containers input-holder" :class="{ 'forbidden' : forbiddenContainers }" >
                 
@@ -73,27 +77,23 @@ export default{
     padding: var(--extra-small-padding);
     box-sizing: border-box;
 }
-
-.form-holder form{
-    grid-template-columns: 1fr 1fr ;
-}
 .form-holder form .input-name {
     grid-area: 1/1/2/2;
-}
-.form-holder form .input-name input, .form-holder form .input-type select{
-    width: 100%;
+
 }
 .form-holder form .input-ip {
-    grid-area: 2/1/3/3;
+    grid-area: 2/1/3/2;
 }
 .form-holder form .input-type {
-    grid-area: 1/2/2/3;
+    grid-area: 3/1/4/2;
+}
+.form-holder form .input-type-os {
+    grid-area: 4/1/5/2;
 }
 .form-holder .containers{
     position: relative;
 
-    grid-column: 1/3 ;
-    grid-row: 3/5;
+    grid-column: 1/2 ;
 
     height: 100%;
 }

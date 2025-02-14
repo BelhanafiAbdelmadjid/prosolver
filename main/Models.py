@@ -42,6 +42,9 @@ def executeScript(ip,username,password,script,header,arguments,expectedOutputNum
 class ServersType(enum.Enum):
     UAT = 'UAT'
     PROD = "PROD"
+class ServersTypeOS(enum.Enum):
+    Linux = 'Linux'
+    Windows = "Windows"    
 class InputType(enum.Enum):
     EMAIL = "email"
     TEXT = "text"
@@ -64,6 +67,7 @@ class Servers(db.Model):
     ip = db.Column(db.String(15),nullable=False,unique=True)
     name = db.Column(db.String(50),nullable=False,unique=True)
     type = db.Column(db.Enum(ServersType),nullable=False)
+    type_os = db.Column(db.Enum(ServersTypeOS),nullable=False)
     # ------------------------------- Foreing keys ------------------------------- #
     addedBy = db.Column(db.Integer, db.ForeignKey('users.id'))
     # ---------------------------- Giving foreing keys --------------------------- #
@@ -71,7 +75,7 @@ class Servers(db.Model):
     steps = db.relationship("Steps",backref="server_relation")
     # ------------------------------ Static methods ------------------------------ #
     @staticmethod
-    def create(name,type,ip,addedBy,containers):
+    def create(name,type,ip,addedBy,containers,type_os):
         if Servers().getServerByIP(ip):
             raise ValueError(f'Server with ip: {ip} already exist.')
         if Servers().checkIfNameExist(name) :
@@ -92,6 +96,11 @@ class Servers(db.Model):
             server.type = type
         else:
             raise ValueError(f'Type {type} is not supported please contact your support.')
+        # ------------------------------ handeling type os ------------------------------ #
+        if attributeInEnum(type_os,ServersTypeOS):
+            server.type_os = type_os
+        else:
+            raise ValueError(f'Type of os {type_os} is not supported please contact your support.')
         # ---------------------------- handeling container --------------------------- #
         for container in containers :
             server.containers.append(Containers(name=container["name"],addedby=addedBy))
@@ -151,15 +160,16 @@ class Servers(db.Model):
             servers = servers.filter_by(type="PROD").filter(Servers.name.ilike(f'%{query_name}%'))
         else :
             servers = servers.filter_by(type="PROD")
-        servers = [server.toDictionary(containers=False,ping=True) for server in servers]
+        servers = [server.toDictionary(containers=False,ping=True,type_os=True) for server in servers]
         return servers
     # ---------------------------------- Methods --------------------------------- #
-    def toDictionary(self,name=True,type=True,addedBy=True,ip=True,containers=False,ping=False):
+    def toDictionary(self,name=True,type=True,addedBy=True,ip=True,containers=False,ping=False,type_os=False):
         return  {
             "id" : self.id,
             "ip" : self.ip if ip else None,
             "name" : self.name if name else None,
             "type" : self.type.value if type else None,
+            "type_os" : self.type_os.value if type_os else None,
             "addedBy" : Users().getUserByID(self.addedBy).user if addedBy else None,
             "containers" : Containers().listContainers(self.containers) if containers else [container.id for container in self.containers],
             "status" : ( self.hostIsUp() ) if ping else None 
@@ -173,7 +183,7 @@ class Servers(db.Model):
         db.session.delete(self)
     def hostIsUp(self):
         return "Active" if ping3.ping(self.ip,timeout=4) else "Down"
-    def update(self,name,ip,type,containers,addedBy):
+    def update(self,name,ip,type,containers,addedBy,type_os):
         if name :
             if Servers().checkIfNameExist(name):
                 raise ValueError(f'Server with the name: {name} already exist.')
@@ -186,7 +196,12 @@ class Servers(db.Model):
             if attributeInEnum(type,ServersType):
                 self.type = type
             else:
-                raise ValueError(f'Language {type} is not supported please contact your support.')
+                raise ValueError(f'Type {type} is not supported please contact your support.')
+        if type_os :
+            if attributeInEnum(type_os,ServersTypeOS):
+                self.type_os = type_os
+            else:
+                raise ValueError(f'Type of os {type_os} is not supported please contact your support.')
         print("check containers",containers)
         if containers:
             oldContainers = [item for item in self.containers if item.id not in [x["id"] for x in containers]]

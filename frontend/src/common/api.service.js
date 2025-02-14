@@ -1,7 +1,7 @@
 import toolKit from "@/main.js"
 export default class apiFetch{
     
-    static BASE_URL = "http://192.168.1.65:5000/api";
+    static BASE_URL = "http://192.168.1.23:5000/api";
     static get(endpoint,emit,throwErr){
         if(throwErr == null){
             throwErr = false;
